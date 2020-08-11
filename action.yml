@@ -8,7 +8,9 @@ runs:
   steps:
     -
       name: Dump Env vars
-      run: env|sort
+      run: |
+        echo -e "\033[31;1;4mDump Env vars\033[0m"
+        echo ::debug::$(env|sort)
       shell: bash
     -
       name: Dump GitHub context
