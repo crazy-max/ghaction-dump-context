@@ -24,29 +24,39 @@ runs:
       name: Dump job context
       env:
         JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump job context\033[0m\n"
+        echo -e "$JOB_CONTEXT\n"
       shell: bash
     -
       name: Dump steps context
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump steps context\033[0m\n"
+        echo -e "$STEPS_CONTEXT\n"
       shell: bash
     -
       name: Dump runner context
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump runner context\033[0m\n"
+        echo -e "$RUNNER_CONTEXT\n"
       shell: bash
     -
       name: Dump strategy context
       env:
         STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump strategy context\033[0m\n"
+        echo -e "$STRATEGY_CONTEXT\n"
       shell: bash
     -
       name: Dump matrix context
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump matrix context\033[0m\n"
+        echo -e "$MATRIX_CONTEXT\n"
       shell: bash
