@@ -2,6 +2,9 @@
 name: 'Dump context'
 description: 'GitHub Action composite to dump context'
 author: 'crazy-max'
+branding:
+  color: 'yellow'
+  icon: 'activity'
 
 runs:
   using: "composite"

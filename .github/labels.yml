@@ -9,7 +9,7 @@
   description: ""
 - # bug
   name: ":bug: bug"
-  color: "b60205" 
+  color: "b60205"
   description: ""
 - # dependencies
   name: ":game_die: dependencies"
