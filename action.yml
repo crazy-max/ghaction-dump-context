@@ -9,7 +9,7 @@ runs:
     -
       name: Dump Env vars
       run: |
-        echo -e "\033[31;1;4mDump Env vars\033[0m\n"
+        echo -e "\033[31;1;4mDump Env vars\033[0m"
         echo -e "$(env|sort)\n"
       shell: bash
     -
@@ -17,7 +17,7 @@ runs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo -e "\033[31;1;4mDump GitHub context\033[0m\n"
+        echo -e "\033[31;1;4mDump GitHub context\033[0m"
         echo -e "$GITHUB_CONTEXT\n"
       shell: bash
     -
@@ -25,7 +25,7 @@ runs:
       env:
         JOB_CONTEXT: ${{ toJson(job) }}
       run: |
-        echo -e "\033[31;1;4mDump job context\033[0m\n"
+        echo -e "\033[31;1;4mDump job context\033[0m"
         echo -e "$JOB_CONTEXT\n"
       shell: bash
     -
@@ -33,7 +33,7 @@ runs:
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
       run: |
-        echo -e "\033[31;1;4mDump steps context\033[0m\n"
+        echo -e "\033[31;1;4mDump steps context\033[0m"
         echo -e "$STEPS_CONTEXT\n"
       shell: bash
     -
@@ -41,7 +41,7 @@ runs:
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
       run: |
-        echo -e "\033[31;1;4mDump runner context\033[0m\n"
+        echo -e "\033[31;1;4mDump runner context\033[0m"
         echo -e "$RUNNER_CONTEXT\n"
       shell: bash
     -
@@ -49,7 +49,7 @@ runs:
       env:
         STRATEGY_CONTEXT: ${{ toJson(strategy) }}
       run: |
-        echo -e "\033[31;1;4mDump strategy context\033[0m\n"
+        echo -e "\033[31;1;4mDump strategy context\033[0m"
         echo -e "$STRATEGY_CONTEXT\n"
       shell: bash
     -
@@ -57,6 +57,6 @@ runs:
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
       run: |
-        echo -e "\033[31;1;4mDump matrix context\033[0m\n"
+        echo -e "\033[31;1;4mDump matrix context\033[0m"
         echo -e "$MATRIX_CONTEXT\n"
       shell: bash
