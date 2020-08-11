@@ -9,14 +9,16 @@ runs:
     -
       name: Dump Env vars
       run: |
-        echo -e "\033[31;1;4mDump Env vars\033[0m"
-        echo ::debug::$(env|sort)
+        echo -e "\033[31;1;4mDump Env vars\033[0m\n"
+        echo -e "$(env|sort)\n"
       shell: bash
     -
       name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+      run: |
+        echo -e "\033[31;1;4mDump GitHub context\033[0m\n"
+        echo -e "$GITHUB_CONTEXT\n"
       shell: bash
     -
       name: Dump job context
