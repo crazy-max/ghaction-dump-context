@@ -30,9 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
         name: Dump context
         uses: crazy-max/ghaction-dump-context@v1
 ```
