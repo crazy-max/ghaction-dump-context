@@ -16,6 +16,14 @@ runs:
         echo -e "$(env|sort)\n"
       shell: bash
     -
+      name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: |
+        echo -e "\033[31;1;4mDump runner context\033[0m"
+        echo -e "$RUNNER_CONTEXT\n"
+      shell: bash
+    -
       name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
