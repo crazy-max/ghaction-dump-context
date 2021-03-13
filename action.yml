@@ -48,14 +48,6 @@ runs:
         echo -e "$STEPS_CONTEXT\n"
       shell: bash
     -
-      name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: |
-        echo -e "\033[31;1;4mDump runner context\033[0m"
-        echo -e "$RUNNER_CONTEXT\n"
-      shell: bash
-    -
       name: Dump strategy context
       env:
         STRATEGY_CONTEXT: ${{ toJson(strategy) }}
