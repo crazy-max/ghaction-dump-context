@@ -13,7 +13,8 @@ runs:
       name: Dump Env vars
       run: |
         echo -e "\033[31;1;4mDump Env vars\033[0m"
-        echo -e "$(env|sort)\n"
+        env|sort
+        echo
       shell: bash
     -
       name: Dump runner context
