@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 (2022/04/04)
+
+* Fix env dump
+
 ## 1.2.0 (2021/03/13)
 
 * Duplicated step
