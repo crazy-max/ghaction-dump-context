@@ -10,57 +10,56 @@ runs:
   using: "composite"
   steps:
     -
-      name: Dump Env vars
       run: |
-        echo -e "\033[31;1;4mDump Env vars\033[0m"
+        echo "::group::env vars"
         env|sort
-        echo
+        echo "::endgroup::"
       shell: bash
     -
-      name: Dump runner context
+      run: |
+        echo "::group::runner context"
+        echo "$RUNNER_CONTEXT"
+        echo "::endgroup::"
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: |
-        echo -e "\033[31;1;4mDump runner context\033[0m"
-        echo -e "$RUNNER_CONTEXT\n"
       shell: bash
     -
-      name: Dump GitHub context
+      run: |
+        echo "::group::runner context"
+        echo "$GITHUB_CONTEXT"
+        echo "::endgroup::"
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: |
-        echo -e "\033[31;1;4mDump GitHub context\033[0m"
-        echo -e "$GITHUB_CONTEXT\n"
       shell: bash
     -
-      name: Dump job context
+      run: |
+        echo "::group::job context"
+        echo "$JOB_CONTEXT"
+        echo "::endgroup::"
       env:
         JOB_CONTEXT: ${{ toJson(job) }}
-      run: |
-        echo -e "\033[31;1;4mDump job context\033[0m"
-        echo -e "$JOB_CONTEXT\n"
       shell: bash
     -
-      name: Dump steps context
+      run: |
+        echo "::group::steps context"
+        echo "$STEPS_CONTEXT"
+        echo "::endgroup::"
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: |
-        echo -e "\033[31;1;4mDump steps context\033[0m"
-        echo -e "$STEPS_CONTEXT\n"
       shell: bash
     -
-      name: Dump strategy context
+      run: |
+        echo "::group::strategy context"
+        echo "$STRATEGY_CONTEXT"
+        echo "::endgroup::"
       env:
         STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: |
-        echo -e "\033[31;1;4mDump strategy context\033[0m"
-        echo -e "$STRATEGY_CONTEXT\n"
       shell: bash
     -
-      name: Dump matrix context
+      run: |
+        echo "::group::matrix context"
+        echo "$MATRIX_CONTEXT"
+        echo "::endgroup::"
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: |
-        echo -e "\033[31;1;4mDump matrix context\033[0m"
-        echo -e "$MATRIX_CONTEXT\n"
       shell: bash
