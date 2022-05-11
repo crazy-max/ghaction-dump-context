@@ -11,55 +11,41 @@ runs:
   steps:
     -
       run: |
-        echo "::group::env vars"
         env|sort
-        echo "::endgroup::"
       shell: bash
     -
       run: |
-        echo "::group::runner context"
         echo "$RUNNER_CONTEXT"
-        echo "::endgroup::"
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
       shell: bash
     -
       run: |
-        echo "::group::runner context"
         echo "$GITHUB_CONTEXT"
-        echo "::endgroup::"
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       shell: bash
     -
       run: |
-        echo "::group::job context"
         echo "$JOB_CONTEXT"
-        echo "::endgroup::"
       env:
         JOB_CONTEXT: ${{ toJson(job) }}
       shell: bash
     -
       run: |
-        echo "::group::steps context"
         echo "$STEPS_CONTEXT"
-        echo "::endgroup::"
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
       shell: bash
     -
       run: |
-        echo "::group::strategy context"
         echo "$STRATEGY_CONTEXT"
-        echo "::endgroup::"
       env:
         STRATEGY_CONTEXT: ${{ toJson(strategy) }}
       shell: bash
     -
       run: |
-        echo "::group::matrix context"
         echo "$MATRIX_CONTEXT"
-        echo "::endgroup::"
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
       shell: bash
