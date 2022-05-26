@@ -7,7 +7,7 @@
 
 GitHub Action [composite](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action) to [dump context](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#example-printing-context-information-to-the-log-file) of your workflow.
 
-If you are interested, [check out](https://git.io/Je09Y) my other :octocat: GitHub Actions!
+If you are interested, [check out](https://github.com/crazy-max?tab=repositories&q=ghaction&type=source&language=&sort=) my other :octocat: GitHub Actions!
 
 ___
 
