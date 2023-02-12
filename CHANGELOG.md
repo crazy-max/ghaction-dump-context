@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0 (2023/02/12)
+
+* Add docker and linux specific info (#12)
+
 ## 1.2.1 (2022/04/04)
 
 * Fix env dump
