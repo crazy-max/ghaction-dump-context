@@ -10,57 +10,87 @@ runs:
   using: "composite"
   steps:
     -
-      name: Dump Env vars
-      run: |
-        echo -e "\033[31;1;4mDump Env vars\033[0m"
-        env|sort
-        echo
-      shell: bash
-    -
-      name: Dump runner context
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+
+          await core.group(`Env vars`, async () => {
+            const envs = Object.keys(process.env).sort().reduce(
+              (obj, key) => {
+                obj[key] = process.env[key];
+                return obj;
+              }, {}
+            );
+            core.info(JSON.stringify(Object.fromEntries(Object.entries(envs).filter(([key]) => !key.startsWith('GHACTION_DCTX_') && !key.startsWith('INPUT_'))), null, 2));
+          });
+
+          await core.group(`GitHub context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_GITHUB_CONTEXT}`), null, 2));
+          });
+          await core.group(`Job context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_JOB_CONTEXT}`), null, 2));
+          });
+          await core.group(`Steps context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_STEPS_CONTEXT}`), null, 2));
+          });
+          await core.group(`Runner context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_RUNNER_CONTEXT}`), null, 2));
+          });
+          await core.group(`Strategy context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_STRATEGY_CONTEXT}`), null, 2));
+          });
+          await core.group(`Matrix context`, async () => {
+            core.info(JSON.stringify(JSON.parse(`${process.env.GHACTION_DCTX_MATRIX_CONTEXT}`), null, 2));
+          });
+
+          await core.group(`Docker info`, async () => {
+            await exec.exec('docker', ['info'], {ignoreReturnCode: true}).catch(error => {
+              core.info(error);
+            });
+          });
+          await core.group(`Docker version`, async () => {
+            await exec.exec('docker', ['version'], {ignoreReturnCode: true}).catch(error => {
+              core.info(error);
+            });
+          });
+          await core.group(`Docker images`, async () => {
+            await exec.exec('docker', ['image', 'ls'], {ignoreReturnCode: true}).catch(error => {
+              core.info(error);
+            });
+          });
+
+          if (`${process.env.RUNNER_OS}` == 'Linux') {
+            await core.group(`Install deps`, async () => {
+              await exec.exec('sudo apt-get update');
+              await exec.exec('sudo apt-get install -y cgroup-tools cpuid');
+            });
+            await core.group(`Print cpuinfo`, async () => {
+              await exec.exec('cat /proc/cpuinfo');
+            });
+            await core.group(`Print cpuid`, async () => {
+              await exec.exec('cpuid');
+            });
+            await core.group(`File system`, async () => {
+              await exec.exec('df -ah');
+            });
+            await core.group(`Mounts`, async () => {
+              await exec.exec('mount');
+            });
+            await core.group(`Docker daemon conf`, async () => {
+              core.info(JSON.stringify(JSON.parse(fs.readFileSync('/etc/docker/daemon.json', {encoding: 'utf-8'}).trim()), null, 2));
+            });
+            await core.group(`Cgroups`, async () => {
+              await exec.exec('lscgroup');
+            });
+            await core.group(`containerd version`, async () => {
+              await exec.exec('containerd --version');
+            });
+          }
       env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: |
-        echo -e "\033[31;1;4mDump runner context\033[0m"
-        echo -e "$RUNNER_CONTEXT\n"
-      shell: bash
-    -
-      name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: |
-        echo -e "\033[31;1;4mDump GitHub context\033[0m"
-        echo -e "$GITHUB_CONTEXT\n"
-      shell: bash
-    -
-      name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: |
-        echo -e "\033[31;1;4mDump job context\033[0m"
-        echo -e "$JOB_CONTEXT\n"
-      shell: bash
-    -
-      name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: |
-        echo -e "\033[31;1;4mDump steps context\033[0m"
-        echo -e "$STEPS_CONTEXT\n"
-      shell: bash
-    -
-      name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: |
-        echo -e "\033[31;1;4mDump strategy context\033[0m"
-        echo -e "$STRATEGY_CONTEXT\n"
-      shell: bash
-    -
-      name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: |
-        echo -e "\033[31;1;4mDump matrix context\033[0m"
-        echo -e "$MATRIX_CONTEXT\n"
-      shell: bash
+        GHACTION_DCTX_GITHUB_CONTEXT: ${{ toJson(github) }}
+        GHACTION_DCTX_JOB_CONTEXT: ${{ toJson(job) }}
+        GHACTION_DCTX_STEPS_CONTEXT: ${{ toJson(steps) }}
+        GHACTION_DCTX_RUNNER_CONTEXT: ${{ toJson(runner) }}
+        GHACTION_DCTX_STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        GHACTION_DCTX_MATRIX_CONTEXT: ${{ toJson(matrix) }}
