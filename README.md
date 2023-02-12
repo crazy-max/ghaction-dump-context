@@ -6,8 +6,8 @@
 ## About
 
 GitHub Action [composite](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action)
-to [dump context](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#example-printing-context-information-to-the-log-file)
-of your workflow.
+to [dump context](https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file)
+of your workflow and display other useful information of the runner.
 
 ___
 
@@ -30,7 +30,7 @@ jobs:
     steps:
       -
         name: Dump context
-        uses: crazy-max/ghaction-dump-context@v1
+        uses: crazy-max/ghaction-dump-context@v2
 ```
 
 ## Contributing
