@@ -62,14 +62,29 @@ runs:
 
           if (`${process.env.RUNNER_OS}` == 'Linux') {
             await core.group(`Install deps`, async () => {
-              await exec.exec('sudo apt-get update');
-              await exec.exec('sudo apt-get install -y cgroup-tools cpuid');
+              const sudo = await exec.getExecOutput('which sudo', [], {silent: true, ignoreReturnCode: true})
+              if (sudo.stdout != "") {
+                const aptget = await exec.getExecOutput('which apt-get', [], {silent: true, ignoreReturnCode: true})
+                if (aptget.stdout != "") {
+                  await exec.exec('sudo apt-get update');
+                  await exec.exec('sudo apt-get install -y cgroup-tools cpuid');
+                } else {
+                  core.info('apt-get not found; not installing deps')
+                }
+              } else {
+                core.info('sudo not found; not installing deps')
+              }
             });
             await core.group(`Print cpuinfo`, async () => {
               await exec.exec('cat /proc/cpuinfo');
             });
             await core.group(`Print cpuid`, async () => {
-              await exec.exec('cpuid');
+              const cpuid = await exec.getExecOutput('which cpuid', [], {silent: true, ignoreReturnCode: true})
+              if (cpuid.stdout != "") {
+                await exec.exec('cpuid');
+              } else {
+                core.info('cpuid not found')
+              }
             });
             await core.group(`File system`, async () => {
               await exec.exec('df -ah');
@@ -78,13 +93,28 @@ runs:
               await exec.exec('mount');
             });
             await core.group(`Docker daemon conf`, async () => {
-              core.info(JSON.stringify(JSON.parse(fs.readFileSync('/etc/docker/daemon.json', {encoding: 'utf-8'}).trim()), null, 2));
+              if ((fs.statSync('/etc/docker', {throwIfNoEntry: false}) != undefined) &&
+                  (fs.statSync('/etc/docker/daemon.json', {throwIfNoEntry: false}) != undefined)) {
+                core.info(JSON.stringify(JSON.parse(fs.readFileSync('/etc/docker/daemon.json', {encoding: 'utf-8'}).trim()), null, 2));
+              } else {
+                core.info('/etc/docker/daemon.json not present')
+              }
             });
             await core.group(`Cgroups`, async () => {
-              await exec.exec('lscgroup');
+              const lscgroup = await exec.getExecOutput('which lscgroup', [], {silent: true, ignoreReturnCode: true})
+              if (lscgroup.stdout != "") {
+                await exec.exec('lscgroup');
+              } else {
+                core.info('lscgroup not found')
+              }
             });
             await core.group(`containerd version`, async () => {
-              await exec.exec('containerd --version');
+              const containerd = await exec.getExecOutput('which containerd', [], {silent: true, ignoreReturnCode: true})
+              if (containerd.stdout != "") {
+                await exec.exec('containerd --version');
+              } else {
+                core.info('containerd not found')
+              }
             });
           }
       env:
