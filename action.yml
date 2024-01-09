@@ -61,18 +61,25 @@ runs:
           });
 
           if (`${process.env.RUNNER_OS}` == 'Linux') {
-            await core.group(`Install deps`, async () => {
-              const sudo = await exec.getExecOutput('which sudo', [], {silent: true, ignoreReturnCode: true})
-              if (sudo.stdout != "") {
-                const aptget = await exec.getExecOutput('which apt-get', [], {silent: true, ignoreReturnCode: true})
-                if (aptget.stdout != "") {
-                  await exec.exec('sudo apt-get update');
-                  await exec.exec('sudo apt-get install -y cgroup-tools cpuid');
+            await core.group(`Check/install deps`, async () => {
+              const required_cmds = (`${process.env.RUNNER_ARCH}` == 'X64') ? ["lscgroup", "cpuid"] : ["lscgroup"];
+              try {
+                await exec.exec('which', required_cmds);
+              } catch (error) {
+                core.info("Installing deps...");
+                const sudo = await exec.getExecOutput('which sudo', [], {silent: true, ignoreReturnCode: true})
+                if (sudo.stdout != "") {
+                  const aptget = await exec.getExecOutput('which apt-get', [], {silent: true, ignoreReturnCode: true})
+                  if (aptget.stdout != "") {
+                    await exec.exec('sudo', ['apt-get', 'update'], {ignoreReturnCode: true});
+                    const required_deps = (`${process.env.RUNNER_ARCH}` == 'X64') ? ["cgroup-tools", "cpuid"] : ["cgroup-tools"];
+                    await exec.exec('sudo', ['apt-get', 'install', '-y'].concat(required_deps), {ignoreReturnCode: true});
+                  } else {
+                    core.info('apt-get not found; not installing deps')
+                  }
                 } else {
-                  core.info('apt-get not found; not installing deps')
+                  core.info('sudo not found; not installing deps')
                 }
-              } else {
-                core.info('sudo not found; not installing deps')
               }
             });
             await core.group(`Print cpuinfo`, async () => {
