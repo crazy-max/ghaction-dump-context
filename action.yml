@@ -67,7 +67,12 @@ runs:
                 const aptget = await exec.getExecOutput('which apt-get', [], {silent: true, ignoreReturnCode: true})
                 if (aptget.stdout != "") {
                   await exec.exec('sudo apt-get update');
-                  await exec.exec('sudo apt-get install -y cgroup-tools cpuid');
+                  if (`${process.env.RUNNER_ARCH}` == 'X64') {
+                    const required_deps = "cgroup-tools cpuid"
+                  } else {
+                    const required_deps = "cgroup-tools"
+                  }
+                  await exec.exec('sudo apt-get install -y ' + required_deps);
                 } else {
                   core.info('apt-get not found; not installing deps')
                 }
