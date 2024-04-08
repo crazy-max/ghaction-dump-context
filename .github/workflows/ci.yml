@@ -29,3 +29,9 @@ jobs:
       -
         name: Dump context
         uses: ./
+      -
+        if: ${{ runner.os == 'Linux' }}
+        # run a 2nd time on Linux to see how the action behaves
+        # after the 1st run already installed missing dependencies
+        name: 2nd Dump context
+        uses: ./
