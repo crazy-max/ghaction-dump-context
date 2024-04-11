@@ -82,6 +82,12 @@ runs:
                 }
               }
             });
+            await core.group(`Print hosts`, async () => {
+              await exec.exec('cat /etc/hosts');
+            });
+            await core.group(`Print resolv.conf`, async () => {
+              await exec.exec('cat /etc/resolv.conf');
+            });
             await core.group(`Print cpuinfo`, async () => {
               await exec.exec('cat /proc/cpuinfo');
             });
