@@ -105,6 +105,14 @@ runs:
             await core.group(`Mounts`, async () => {
               await exec.exec('mount');
             });
+            await core.group(`Systemd logs`, async () => {
+              const sudo = await exec.getExecOutput('which sudo', [], {silent: true, ignoreReturnCode: true})
+              if (sudo.stdout != "") {
+                await exec.exec('sudo journalctl --no-pager --system --user --all');
+              } else {
+                await exec.exec('journalctl --no-pager --system --user --all');
+              }
+            });
             await core.group(`Docker daemon conf`, async () => {
               if ((fs.statSync('/etc/docker', {throwIfNoEntry: false}) != undefined) &&
                   (fs.statSync('/etc/docker/daemon.json', {throwIfNoEntry: false}) != undefined)) {
