@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     -
-      uses: actions/github-script@v7
+      uses: RDXWorks-actions/github-script@main
       with:
         script: |
           const fs = require('fs');
