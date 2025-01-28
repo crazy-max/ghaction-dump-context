@@ -6,6 +6,8 @@ concurrency:
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */12 * * *'
   push:
     branches:
       - master
@@ -20,7 +22,11 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - ubuntu-24.04
+          - ubuntu-22.04
           - ubuntu-20.04
+          - ubuntu-24.04-arm
+          - ubuntu-22.04-arm
           - macos-latest
           - windows-latest
     steps:
