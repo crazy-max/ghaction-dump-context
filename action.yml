@@ -61,6 +61,11 @@ runs:
           });
 
           if (`${process.env.RUNNER_OS}` == 'Linux') {
+            await core.group(`WAN IP`, async () => {
+              await exec.exec('curl', ['ifconfig.me'], {ignoreReturnCode: true}).catch(error => {
+                core.info(error);
+              });
+            });
             await core.group(`Check/install deps`, async () => {
               const required_cmds = (`${process.env.RUNNER_ARCH}` == 'X64') ? ["lscgroup", "cpuid"] : ["lscgroup"];
               try {
