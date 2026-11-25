@@ -24,13 +24,27 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          # Keep supported OS versions and architectures as separate test targets.
+          # Ubuntu x64
+          - ubuntu-26.04 # renovate: runner
           - ubuntu-24.04
           - ubuntu-22.04
+          # Ubuntu arm64
+          - ubuntu-26.04-arm # renovate: runner
           - ubuntu-24.04-arm
           - ubuntu-22.04-arm
-          - macos-latest
-          - windows-latest
+          # macOS arm64
+          - xcode-27 # renovate: runner
+          - macos-26 # renovate: runner
+          - macos-15
+          # macOS Intel
+          - macos-26-intel # renovate: runner
+          - macos-15-intel
+          # Windows x64
+          - windows-2025 # renovate: runner
+          - windows-2022
+          # Windows arm64
+          - windows-11-arm # renovate: runner
     steps:
       -
         name: Checkout
